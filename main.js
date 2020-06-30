@@ -16,13 +16,13 @@ const state = {
 }
 
 // CONTROL GAME
-cvs.addEventListener("click",function(evt){
+cvs.addEventListener("click", function(evt){
   switch (state.current) {
     case state.getReady:
       state.current = state.game;
       break;
     case state.game:
-      state.current = state.gameOver;
+      bird.flap();
       break;
     case state.gameOver:
       state.current = state.getReady;
@@ -64,7 +64,7 @@ const fg = {
 
 // STATE
 
-const getReady ={
+const getReady = {
   sX : 0,
   sY : 229,
   w : 173,
@@ -115,16 +115,25 @@ const bird = {
     let bird = this.animation [this.frame];
 
     ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h, this.x - this.w/2, this.y -this.h/2, this.w, this.h);
-  }
+  },
+
+  flap : function(){
+
+  },
+
 }
 
 // DRAW
 function draw(){
+  ctx.fillStyle = "#70c5ce";
+  ctx.fillRect(0, 0, cvs.width, cvs.height);
+
   bg.draw();
   fg.draw();
+ bird.draw();
   getReady.draw();
   gameOver.draw();
-  bird.draw();
+ 
 }
 
 
