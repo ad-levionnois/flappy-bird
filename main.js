@@ -5,14 +5,14 @@ const ctx = cvs.getContext('2d');
 const sprite = new Image();
   sprite.src="sprite.png";
 
-let frames = 0;
+let frame = 0;
 
 // GAME STATE
 const state = {
   current : 0,
   getReady : 0,
   game : 1,
-  gameOver : 2,
+  gameOver : 2
 }
 
 // CONTROL GAME
@@ -109,12 +109,12 @@ const bird = {
   x :50,
   y :150,
 
-  frames :0,
+  frame :0,
 
   draw : function(){
     let bird = this.animation [this.frame];
 
-    ctx.drawImage(sprite,bird.sX, bird.sY, this.w, this.h, this.x - this.w/2, this.y -this.h/2, this.w, this.h);
+    ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h, this.x - this.w/2, this.y -this.h/2, this.w, this.h);
   }
 }
 
@@ -126,11 +126,12 @@ function draw(){
   gameOver.draw();
   bird.draw();
 }
-draw();
+
 
 function loop () {
-  frame++;
+  draw();
   requestAnimationFrame(loop);
+  frame++;
 }
 
 loop();
