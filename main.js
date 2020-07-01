@@ -3,7 +3,7 @@ const ctx = cvs.getContext('2d');
 
 // LOAD SPRITE IMG
 const sprite = new Image();
-  sprite.src="sprite.png";
+  sprite.src="img/sprite.png";
 
 const degree = Math.PI/180
 
@@ -155,7 +155,7 @@ const bird = {
                     state.current = state.gameOver;
                 }
             }
-            // si l'oiseau jump 
+            // si l'oiseau jump
 
           }
   }
