@@ -5,7 +5,9 @@ const ctx = cvs.getContext('2d');
 const sprite = new Image();
   sprite.src="sprite.png";
 
-let frame = 0;
+const degree = Math.PI/180
+
+let frames = 0;
 
 // GAME STATE
 const state = {
@@ -111,15 +113,52 @@ const bird = {
 
   frame :0,
 
+  gravity : 0.25,
+  speed: 0,
+  rotation:0,
+  jump: 4.6,
+
   draw : function(){
-    let bird = this.animation [this.frame];
+    let bird = this.animation[this.frame];
+
+    ctx.save();
+    ctx.translate(this.x, this.y); //deplacer l'origine du canvas
+    ctx.rotate(this.rotate);
+    ctx.restore();
+
 
     ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h, this.x - this.w/2, this.y -this.h/2, this.w, this.h);
   },
 
   flap : function(){
-
+      this.speed = -this.jump;
   },
+
+  update: function(){
+         // si le jeu est en mode getReady l'oiseau bat doucement des ailes
+        this.period = state.current == state.getReady ? 10 : 5;
+        // on incrémente la frames de 1 à chaque période
+        this.frame += frames%this.period == 0 ? 1 : 0;
+        // quand on arrive a 4 l'animation retourne a 0
+        this.frame = this.frame%this.animation.length;
+
+        if(state.current == state.getReady){
+          this.y = 150; // reset position
+          this.rotation = 0 * degree ;
+        } else{
+            this.speed += this.gravity;
+            this.y += this.speed
+
+            if(this.y + this.h/2 >= cvs.height - fg.h){
+                this.y = cvs.height - fg.h - this.h/2;
+                if(state.current == state.game){
+                    state.current = state.gameOver;
+                }
+            }
+            // si l'oiseau jump 
+
+          }
+  }
 
 }
 
@@ -133,14 +172,19 @@ function draw(){
  bird.draw();
   getReady.draw();
   gameOver.draw();
- 
+
+}
+// UPDATE
+function update(){
+    bird.update();
+
 }
 
-
 function loop () {
+  update();
   draw();
   requestAnimationFrame(loop);
-  frame++;
+  frames++;
 }
 
 loop();
